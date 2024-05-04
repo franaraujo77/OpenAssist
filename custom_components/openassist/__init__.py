@@ -112,7 +112,7 @@ async def async_setup(hass: HomeAssistant, config: dict):
                 # Fetch Pinecone host information
                 response = await hass.async_add_executor_job(
                     get_request_pinecone,
-                    f'https://controller.{pinecone_env}.pinecone.io/databases/entities',
+                    f'https://api.pinecone.io/databases/entities',
                     headers
                 )
                 pinecone_host = response.get('status', {}).get('host')
@@ -155,7 +155,7 @@ async def async_setup(hass: HomeAssistant, config: dict):
 
                 response = await hass.async_add_executor_job(
                     get_request_pinecone,
-                    f'https://controller.{environment_str}.pinecone.io/databases',
+                    f'https://api.pinecone.io/databases',
                     headers 
                 )
 
@@ -173,7 +173,7 @@ async def async_setup(hass: HomeAssistant, config: dict):
                         "pod_type": "p1.x1"
                     }
                     try:
-                        response = await hass.async_add_executor_job(post_request_pinecone, f'https://controller.{environment_str}.pinecone.io/databases', headers, index_payload)
+                        response = await hass.async_add_executor_job(post_request_pinecone, f'https://api.pinecone.io/databases', headers, index_payload)
                         if response and 'status_code' in response:
                             if response['status_code'] == 201:  # HTTP Status Code for 'Created'
                                 _LOGGER.debug(f"Index '{index_name}' has been created successfully.")
@@ -187,7 +187,7 @@ async def async_setup(hass: HomeAssistant, config: dict):
                 while True:
                     response, host = await hass.async_add_executor_job(
                         get_request_pinecone_host,
-                        f'https://controller.{environment_str}.pinecone.io/databases/{index_name}',
+                        f'https://api.pinecone.io/databases/{index_name}',
                         headers
                     )
                     status = response.get('status', {}).get('state')
