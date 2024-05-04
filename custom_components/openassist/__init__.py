@@ -77,7 +77,7 @@ async def async_setup(hass: HomeAssistant, config: dict):
 
     conf = config[DOMAIN] 
     openai.api_key = conf['openai_key']
-    pinecone_env = conf['pinecone_env']
+    
     headers = {
         'Api-Key': conf['pinecone_key'],
         'Accept': 'application/json',
